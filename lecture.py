@@ -59,6 +59,7 @@ for link in links:
     if len(time_list) == 3:
         total_time += int(time_list[0]) * 3600
     sleep(total_time)
+    current_time = '0:00'
     while current_time != time_str:
         current_time = driver.execute_script(
             'return document.querySelector("#playerEl > div.vjs-control-bar > div.vjs-current-time.vjs-time-control.vjs-control > span.vjs-current-time-display").innerText'

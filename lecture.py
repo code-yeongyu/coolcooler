@@ -22,6 +22,7 @@ except:
 driver.get("https://oc.ebssw.kr/")
 
 input("학교선택, 로그인 후 엔터를 눌러주세요.")
+driver.switch_to.window(driver.window_handles[0])
 
 links = [
     link.replace("\n", '')

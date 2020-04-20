@@ -19,9 +19,9 @@ except:
     exit(-1)
 
 # 로그인 부분
-driver.get("https://hoc22.ebssw.kr/sso/loginView.do")
+driver.get("https://oc.ebssw.kr/")
 
-input("로그인 하고 엔터를 눌러주세요.")
+input("학교선택, 로그인 후 엔터를 눌러주세요.")
 
 links = [
     link.replace("\n", '')

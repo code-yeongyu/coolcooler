@@ -46,7 +46,8 @@ for link in links:
                 'return document.querySelector("#playerEl > div.vjs-control-bar > div.vjs-duration.vjs-time-control.vjs-control > span.vjs-duration-display").innerText'
             )
         except:
-            time_str = input("강의 길이 감지 실패.\n강의 길이를 직접 입력해주세요(예: 1:00:00): ")
+            time_str = input(
+                "강의 길이 감지 실패.\n동영상을 직접 재생 후, 강의 길이를 직접 입력해주세요(예: 1:00:00): ")
         if time_str != "0:00":
             break
     print(f"{datetime.datetime.now().time()}: 강의 수강 시작, 강의 길이: {time_str}")

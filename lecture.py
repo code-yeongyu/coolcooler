@@ -56,11 +56,14 @@ for link in links:
     total_time += int(time_list[-2]) * 60
     print("동영상 재생")
     try:
-        driver.find_element_by_css_selector('#playerEl > button').click()
+        try:
+            driver.find_element_by_css_selector('#playerEl > button').click()
+        except:
+            driver.find_element_by_css_selector(
+                '#playerEl > div.vjs-message-display.vjs-modal-dialog > div > div > div.vjs-modal-dialog-buttonWrap > button.vjs-modal-dialog-btn_ok'
+            ).click()
     except:
-        driver.find_element_by_css_selector(
-            '#playerEl > div.vjs-message-display.vjs-modal-dialog > div > div > div.vjs-modal-dialog-buttonWrap > button.vjs-modal-dialog-btn_ok'
-        ).click()
+        pass
     if len(time_list) == 3:
         total_time += int(time_list[0]) * 3600
     sleep(total_time)

@@ -40,10 +40,13 @@ for link in links:
     driver.get(link)
     while True:
         driver.refresh()
-        sleep(2)
-        time_str = driver.execute_script(
-            'return document.querySelector("#playerEl > div.vjs-control-bar > div.vjs-duration.vjs-time-control.vjs-control > span.vjs-duration-display").innerText'
-        )
+        sleep(3)
+        try:
+            time_str = driver.execute_script(
+                'return document.querySelector("#playerEl > div.vjs-control-bar > div.vjs-duration.vjs-time-control.vjs-control > span.vjs-duration-display").innerText'
+            )
+        except:
+            time_str = input("강의 길이 감지 실패.\n강의 길이를 직접 입력해주세요(예: 1:00:00): ")
         if time_str != "0:00":
             break
     print(f"{datetime.datetime.now().time()}: 강의 수강 시작, 강의 길이: {time_str}")

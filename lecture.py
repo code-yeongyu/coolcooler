@@ -69,9 +69,12 @@ for link in links:
     sleep(total_time)
     current_time = '0:00'
     while current_time != time_str:
-        current_time = driver.execute_script(
-            'return document.querySelector("#playerEl > div.vjs-control-bar > div.vjs-current-time.vjs-time-control.vjs-control > span.vjs-current-time-display").innerText'
-        )
+        try:
+            current_time = driver.execute_script(
+                'return document.querySelector("#playerEl > div.vjs-control-bar > div.vjs-current-time.vjs-time-control.vjs-control > span.vjs-current-time-display").innerText'
+            )
+        except:
+            break
         sleep(2)
     driver.execute_script(
         'document.querySelector("#learn_header > div > ul > li > a").click()')

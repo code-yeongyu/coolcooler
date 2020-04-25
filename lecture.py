@@ -38,22 +38,7 @@ for link in links:
     total_time = 0
     print(f"{link} 수강 시작")
     driver.get(link)
-    while True:
-        driver.refresh()
-        sleep(3)
-        try:
-            time_str = driver.execute_script(
-                'return document.querySelector("#playerEl > div.vjs-control-bar > div.vjs-duration.vjs-time-control.vjs-control > span.vjs-duration-display").innerText'
-            )
-        except:
-            time_str = input(
-                "강의 길이 감지 실패.\n동영상을 직접 재생 후, 강의 길이를 직접 입력해주세요(예: 1:00:00): ")
-        if time_str != "0:00":
-            break
-    print(f"{datetime.datetime.now().time()}: 강의 수강 시작, 강의 길이: {time_str}")
-    time_list = time_str.split(":")
-    total_time += int(time_list[-1])
-    total_time += int(time_list[-2]) * 60
+    sleep(4)
     print("동영상 재생")
     try:
         try:
@@ -64,20 +49,25 @@ for link in links:
             ).click()
     except:
         pass
+    sleep(3)
+    while True:
+        try:
+            time_str = driver.execute_script(
+                'return document.querySelector("#playerEl > div.vjs-control-bar > div.vjs-duration.vjs-time-control.vjs-control > span.vjs-duration-display").innerText'
+            )
+        except:
+            time_str = input(
+                "강의 길이 감지 실패.\n동영상을 직접 재생 후, 강의 길이를 직접 입력해주세요(예: 1:00:00): ")
+    print(f"{datetime.datetime.now().time()}: 강의 수강 시작, 강의 길이: {time_str}")
+    time_list = time_str.split(":")
+    total_time += int(time_list[-1])
+    total_time += int(time_list[-2]) * 60
     if len(time_list) == 3:
         total_time += int(time_list[0]) * 3600
     sleep(total_time)
-    current_time = '0:00'
-    while current_time != time_str:
-        try:
-            current_time = driver.execute_script(
-                'return document.querySelector("#playerEl > div.vjs-control-bar > div.vjs-current-time.vjs-time-control.vjs-control > span.vjs-current-time-display").innerText'
-            )
-        except:
-            break
-        sleep(2)
+    sleep(5)
     driver.execute_script(
         'document.querySelector("#learn_header > div > ul > li > a").click()')
-    sleep(2)
+    sleep(5)
 print("모든 강의의 수강이 완료 되었습니다.")
 driver.close()

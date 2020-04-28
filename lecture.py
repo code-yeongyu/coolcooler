@@ -1,11 +1,9 @@
 import os
-import random
 import datetime
 from json import loads
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.alert import Alert
 
 
 class EBS():
@@ -13,36 +11,28 @@ class EBS():
         def __init__(self, driver, link):
             driver.get(link)
             self.driver = driver
-            self.is_ebs = False
             sleep(5)
-            try:
-                self.driver.execute_script(
-                    'return document.querySelector("#playerEl > div.vjs-control-bar > div.vjs-duration.vjs-time-control.vjs-control > span.vjs-duration-display")'
-                )
-                self.is_ebs = True
-            except:
-                pass
+            self.is_ebs = len(
+                self.driver.find_elements_by_css_selector(
+                    '#playerEl > button')) != 0
 
         def _get_ebs_video_length(self):
             while True:
                 try:
-                    length = self.driver.execute_script(
-                        'return document.querySelector("#playerEl > div.vjs-control-bar > div.vjs-duration.vjs-time-control.vjs-control > span.vjs-duration-display").innerText'
-                    )
+                    length = self.driver.find_element_by_css_selector(
+                        '#playerEl > div.vjs-control-bar > div.vjs-duration.vjs-time-control.vjs-control > span.vjs-duration-display'
+                    ).text
                 except:
                     pass
                 if length != '0:00':
                     return length
 
         def _get_youtube_video_length(self):
-            while True:
-                try:
-                    length = self.driver.execute_script(
-                        'return document.querySelector("span.ytp-time-duration").innerText'
-                    )
-                    return length
-                except:
-                    pass
+            self.driver.switch_to.frame('iframeYoutube')
+            length = self.driver.find_element_by_css_selector(
+                "span.ytp-time-duration").text
+            self.driver.switch_to.default_content()
+            return length
 
         def _play_ebs_video(self):
             try:
@@ -54,8 +44,10 @@ class EBS():
                 ).click()
 
         def _play_youtube_video(self):
-            self.driver.execute_script(
-                'document.querySelector("video").click()')
+            self.driver.switch_to.frame('iframeYoutube')
+            self.driver.find_element_by_css_selector(
+                'div.ytp-left-controls > button').click()
+            self.driver.switch_to.default_content()
 
         def get_str_length(self):
             return self._get_ebs_video_length(
@@ -66,9 +58,8 @@ class EBS():
             ) if self.is_ebs else self._play_youtube_video()
 
         def confirm_watched(self):
-            self.driver.execute_script(
-                'document.querySelector("#learn_header > div > ul > li > a").click()'
-            )
+            self.driver.find_element_by_css_selector(
+                '#learn_header > div > ul > li > a').click()
             sleep(2)
 
     LOGIN_URL = "https://hoc22.ebssw.kr/sso/loginView.do?loginType=onlineClass"
@@ -88,7 +79,8 @@ class EBS():
             options.add_argument("--headless")
         return options
 
-    def _str_length_to_int(self, time_list):
+    def _str_length_to_int(self, time_str):
+        time_list = time_str.split(":")
         total_time = int(time_list[-1])
         total_time += int(time_list[-2]) * 60
         if len(time_list) == 3:
@@ -107,10 +99,9 @@ class EBS():
         self.driver.execute_script(
             f'document.querySelector("#j_username").value = "{id}";document.querySelector("#j_password").value="{password}";'
         )
-        sleep(0.5)
-        self.driver.execute_script(
-            'document.querySelector("#loginViewForm > div > div.left > fieldset > div > button").click()'
-        )
+        self.driver.find_element_by_css_selector(
+            '#loginViewForm > div > div.left > fieldset > div > button').click(
+            )
         sleep(1)
 
     def wait_til_login(self):
@@ -122,14 +113,16 @@ class EBS():
         video = self.Video(self.driver, link)
         print("영상을 재생합니다.")
         video.play()
+        print(f"{datetime.datetime.now().strftime('%H:%M:%S')}: 영상 재생 시작")
         video_str_length = video.get_str_length()
-        print(f"영상 길이: {video_str_length}, 해당 시간 이후 다음 영상으로 넘어갑니다.")
         video_length = self._str_length_to_int(video_str_length)
+        print(f"영상 길이: {video_str_length}, {video_length}초 이후 다음 영상으로 넘어갑니다.")
         sleep(video_length)
-        print("영상 시청 완료했습니다.")
+        print(f"{datetime.datetime.now().strftime('%H:%M:%S')}: 영상 시청 완료")
         video.confirm_watched()
 
     def done(self):
+        print("모든 영상의 시청을 완료 하였습니다. 종료합니다.")
         self.driver.close()
 
 

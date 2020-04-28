@@ -1,0 +1,7 @@
+{
+    "url": "https://hoc22.ebssw.kr/onlineClass/search/onlineClassSearchView.do?schulCcode={학교코드}&schCssTyp={학교타입}과 같은 형태의 url",
+    "enable_auto_login": true,
+    "is_headless": false,
+    "id": "id입력",
+    "password": "패스워드 입력"
+}

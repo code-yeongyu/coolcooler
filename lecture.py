@@ -14,7 +14,11 @@ class EBS():
             sleep(5)
             self.is_ebs = len(
                 self.driver.find_elements_by_css_selector(
-                    '#playerEl > button')) != 0
+                    '#cntntsDiv > div.q_wrap > li > i')) == 0
+            if self.is_ebs:
+                print("EBS 영상")
+            else:
+                print("YouTube 영상")
 
         def _get_ebs_video_length(self):
             while True:
@@ -145,7 +149,7 @@ def main():
         ebs.wait_til_login()
     print("로그인 완료\n")
     for i in range(len(links)):
-        print(f"[{i}/{len(links)}]: [{links[i]}]")
+        print(f"[{i+1}/{len(links)}]: [{links[i]}]")
         ebs.watch_video(links[i])
     ebs.done()
 

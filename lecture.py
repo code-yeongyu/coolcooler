@@ -135,23 +135,29 @@ class EBS():
 
 
 def main():
+    print("링크들(lecture_list.txt)을 로드 합니다.")
     links = [
         link.replace("\n", '')
         for link in open('lecture_list.txt', 'r').readlines()
     ]
+    print("링크 로드 완료")
+    print("설정 파일(settings.json)을 읽습니다.")
     settings = loads(open('settings.json', 'r').read())
+    print("설정 파일 로드 완료.")
     print("lecture_list.txt 안의 강의들을 수강합니다. 다음과 같은 링크들이 입력되었습니다: ")
     for link in links:
         print(link)
     home_page = settings.get("url")
-    print(f"[{home_page}]를 열었습니다.")
+    print(f"[{home_page}]를 엽니다.")
     ebs = EBS(home_page, settings.get("is_headless", False))
+    print(f"[{home_page}]를 열었습니다.")
     if settings.get('enable_auto_login', True):
         print("자동 로그인을 진행 합니다.")
         ebs.login(settings.get('id'), settings.get('password'))
     else:
         ebs.wait_til_login()
     print("로그인 완료\n")
+
     for i in range(len(links)):
         print(f"[{i+1}/{len(links)}]: [{links[i]}]")
         ebs.watch_video(links[i])

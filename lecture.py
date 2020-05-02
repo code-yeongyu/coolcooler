@@ -116,12 +116,21 @@ class EBS():
     def watch_video(self, link):
         print("해당 영상 링크를 로드합니다.")
         video = self.Video(self.driver, link)
-        print("영상을 재생합니다.")
-        video.play()
-        print(f"{datetime.datetime.now().strftime('%H:%M:%S')}: 영상 재생 시작")
-        video_str_length = video.get_str_length()
-        video_length = self._str_length_to_int(video_str_length)
         print("해당 영상 로드 완료")
+        if video.is_ebs:
+            video.play()
+            video_str_length = video.get_str_length()
+            try:
+                video_length = self._str_length_to_int(video_str_length)
+            except:
+                video_length = 3600
+        else:
+            video_str_length = video.get_str_length()
+            try:
+                video_length = self._str_length_to_int(video_str_length)
+            except:
+                video_length = 3600
+            video.play()
         print(f"영상 길이: {video_str_length}, {video_length}초 이후 다음 영상으로 넘어갑니다.")
         sleep(video_length)
         print(f"{datetime.datetime.now().strftime('%H:%M:%S')}: 영상 시청 완료")

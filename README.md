@@ -11,7 +11,7 @@ javscript 소스를 사용해 완강처리를 시켜버리는것이 아닌, 크�
 
 파이썬은 검색을 통해 설치해주시면 좋겠습니다.
 파이썬을 설치 한 이후,
-```bash
+```sh
 pip install -r requirements.txt
 ```
 를 통해 selenium 모듈을 설치해주세요.
@@ -25,12 +25,9 @@ settings.json에서 어떤 내용을 수정해야 할지는 해당 파일에 이
 
 ## 사용
 본 파이썬 파일을 실행해주시면 됩니다. *nix 게열의 운영체제에서는:
-```bash
-python3 lecture.py
-```
-NT 계열의 운영체제에서는:
-```powershell
-python lecture.py
+```sh
+python3 lecture.py # mac os or linux
+python lecture.py # windows
 ```
 
 ## 주의

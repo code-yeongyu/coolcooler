@@ -24,7 +24,8 @@ lecture_list.txt에 수강처리하고싶은 강의를 넣어주세요.
 settings.json에서 어떤 내용을 수정해야 할지는 해당 파일에 이미 설명되어있습니다.
 
 ## 사용
-본 파이썬 파일을 실행해주시면 됩니다. *nix 게열의 운영체제에서는:
+본 파이썬 파일을 실행해주시면 됩니다.
+
 ```sh
 python3 lecture.py # mac os or linux
 python lecture.py # windows

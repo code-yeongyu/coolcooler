@@ -23,9 +23,7 @@ class EBS():
         def _get_ebs_video_length(self):
             while True:
                 try:
-                    length = self.driver.find_element_by_css_selector(
-                        '#playerEl > div.vjs-control-bar > div.vjs-duration.vjs-time-control.vjs-control > span.vjs-duration-display'
-                    ).text
+                    length = self.driver.execute_script('return document.querySelector("#playerEl > div.vjs-control-bar > div.vjs-duration.vjs-time-control.vjs-control > span.vjs-duration-display").innerText')
                 except:
                     pass
                 if length != '0:00':
@@ -116,6 +114,7 @@ class EBS():
     def watch_video(self, link):
         print("해당 영상 링크를 로드합니다.")
         video = self.Video(self.driver, link)
+        sleep(3)
         print("해당 영상 로드 완료")
         if video.is_ebs:
             print("영상을 재생합니다.")

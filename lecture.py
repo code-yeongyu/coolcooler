@@ -68,10 +68,10 @@ class EBS():
 
     def _get_driver(self, options):
         if os.path.isfile('chromedriver'):
-            return webdriver.Chrome("./chromedriver", chrome_options=options)
+            return webdriver.Chrome("./chromedriver", options=options)
         elif os.path.isfile('chromedriver.exe'):
             return webdriver.Chrome("./chromedriver.exe",
-                                    chrome_options=options)
+                                    options=options)
         raise Exception('chromedriver를 찾을 수 없습니다.')
 
     def _get_options(self, is_headless=False):

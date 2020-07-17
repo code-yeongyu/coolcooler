@@ -105,6 +105,10 @@ class EBS():
             '#loginViewForm > div > div.left > fieldset > div > button').click(
             )
         sleep(1)
+        try:
+            self.driver.switch_to.alert.accept()
+        except:
+            pass
 
     def wait_til_login(self):
         self.driver.get(LOGIN_URL)
